@@ -1,28 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 interface CourseViewProps {
-  course: string;
+  courseName: string;
   children: React.ReactNode;
 }
 
-export default function CourseView({course, children} : CourseViewProps) {
+export default function CourseView({courseName, children}:  CourseViewProps) {
+
   return (
-    <View style={styles.container}>
-      <Text>{course}</Text>
-      <View style={styles.rowDirection}>
+    <View style={{ padding: 10 }}>
+      <Text style={styles.viewTitle}>
+        {courseName}
+      </Text>
+      <ScrollView 
+        horizontal={true} 
+        style={{ padding: 10 }}
+        contentContainerStyle={{ gap: 5 }}
+      >
         {children}
-      </View>
+      </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 2,
-  }, 
-
-  rowDirection: {
-    flexDirection: 'row'
+  viewTitle: {
+    fontSize: 14,
+    fontWeight: '500'
   }
 });

@@ -14,11 +14,11 @@ export default function HomeLayout() {
       <Stack.Screen 
         name='index'
         options={{
-          headerTitle: 'Home',
+          headerTitle: 'Controle de sala',
         }}
       />
       <Stack.Screen 
-        name='details'
+        name='subjectDetails'
         options={{
           headerTitle: 'Details',
         }}

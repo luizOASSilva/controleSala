@@ -1,9 +1,8 @@
-import React from 'react'
 import { Stack } from 'expo-router'
 
-export default function HomeLayout() {
+const HomeLayout = () => {
   return (
-    <Stack 
+    <Stack
       screenOptions={{
         headerStyle: {
           backgroundColor: 'white',
@@ -11,18 +10,26 @@ export default function HomeLayout() {
         headerShown: true,
       }}
     >
-      <Stack.Screen 
-        name='index'
+      <Stack.Screen
+        name="index"
         options={{
           headerTitle: 'Controle de sala',
         }}
       />
-      <Stack.Screen 
-        name='subjectDetails'
+      <Stack.Screen
+        name="subjectDetails"
         options={{
-          headerTitle: 'Details',
+          headerTitle: 'Detalhes',
+        }}
+      />
+      <Stack.Screen
+        name='subjectEdit'
+        options={{
+          headerTitle: 'Editar matéria'
         }}
       />
     </Stack>
   )
 }
+
+export default HomeLayout

@@ -15,11 +15,11 @@ export default function SubjectCard({
 }: SubjectCardProps) {
   return (
     <View style={styles.cardContainer}>
-      <Text style={styles.cardTitle}>{semester}</Text>
-      <View>
-        <Text>{subject}</Text>
-        <Text>{professor}</Text>
+      <Text style={styles.semesterText}>{semester}</Text>
+      <Text style={styles.professorText}>{professor}</Text>
+      <View style={styles.box}>
         <Text>{classroom}</Text>
+        <Text>{subject}</Text>
       </View>
     </View>
   )
@@ -29,18 +29,23 @@ const styles = StyleSheet.create({
   cardContainer: {
     shadowColor: '#0002',
     backgroundColor: 'white',
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
     borderRadius: 10,
     shadowOpacity: 1,
     elevation: 2,
     padding: 20,
-    width: 125,
+    width: 175,
   },
-  box: {},
-  cardTitle: {
+  box: {
+    gap: 5,
+  },
+  semesterText: {
+    fontWeight: '500',
     textAlign: 'center',
+  },
+  professorText: {
+    textAlign: 'center',
+    fontWeight: '700',
+    color: 'red',
+    marginBottom: 10,
   },
 })

@@ -23,9 +23,9 @@ const HomeLayout = () => {
         }}
       />
       <Stack.Screen
-        name='subjectEdit'
+        name="subjectEdit"
         options={{
-          headerTitle: 'Editar matéria'
+          headerTitle: 'Editar matéria',
         }}
       />
     </Stack>

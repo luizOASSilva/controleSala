@@ -25,6 +25,6 @@ export default CourseView
 const styles = StyleSheet.create({
   viewTitle: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 })

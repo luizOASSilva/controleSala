@@ -6,8 +6,7 @@ const ProfessorLayout = () => {
       screenOptions={{
         headerTitle: 'Controle de professores',
       }}
-    >
-    </Stack>
+    ></Stack>
   )
 }
 

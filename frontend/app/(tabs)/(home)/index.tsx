@@ -4,6 +4,8 @@ import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SubjectCard from '@/components/SubjectCard'
 
+import { fetchAllAulas, Aula } from '@/services/aulaService'
+
 const index = () => {
   const courses = [
     {
@@ -46,6 +48,11 @@ const index = () => {
       </Link>
     ))
   }
+
+  (async () => {
+    const aulas = await fetchAllAulas();
+    console.log('Aulas recebidas', aulas);
+  })();
 
   return (
     <SafeAreaView>

@@ -5,4 +5,3 @@ const editSubjectController = (req: Request, res: Response) => {
 }
 
 export default editSubjectController;
-

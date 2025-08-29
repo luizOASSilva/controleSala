@@ -4,7 +4,6 @@ import PaginationDot from 'react-native-animated-pagination-dot'
 
 interface Professor {
   name: string
-  image: string
   isActive: boolean
 }
 
@@ -19,7 +18,6 @@ const ProfessorList = ({ professors }: Props) => {
       keyExtractor={(item) => item.name}
       renderItem={({ item }) => (
         <View style={styles.container}>
-          <Image source={{ uri: item.image }} style={styles.image} />
           <View style={styles.content}>
             <Text>{item.name}</Text>
             <PaginationDot

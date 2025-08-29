@@ -5,27 +5,22 @@ const index = () => {
   const professors = [
     {
       name: 'Márcio',
-      image: 'https://reactnative.dev/img/tiny_logo.png',
       isActive: true,
     },
     {
       name: 'Clayton',
-      image: 'https://reactnative.dev/img/tiny_logo.png',
       isActive: true,
     },
     {
       name: 'Eleandro',
-      image: 'https://reactnative.dev/img/tiny_logo.png',
       isActive: false,
     },
     {
       name: 'Giancarlo',
-      image: 'https://reactnative.dev/img/tiny_logo.png',
       isActive: false,
     },
     {
       name: 'Roberto',
-      image: 'https://reactnative.dev/img/tiny_logo.png',
       isActive: false,
     },
   ]

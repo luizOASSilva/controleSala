@@ -4,6 +4,6 @@ import HomeController from "../controllers/home.controller";
 
 const router = Router();
 
-router.get('/', HomeController.getAllCursos);
+router.get('/', HomeController.getAllAulas);
 
 export default router;

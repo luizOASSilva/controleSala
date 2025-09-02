@@ -8,7 +8,7 @@ class AulaView extends Model {
     declare professor: string;
     declare local: string;
     declare andar: number;
-    declare diaSemana: string;
+    declare diaSemana: number;
     declare turno: string;
     declare horasIni: Date;
     declare horasFim: Date;
@@ -46,7 +46,7 @@ AulaView.init(
             allowNull: true,
         },
         diaSemana: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: true,
             field: 'dia_semana',
         },

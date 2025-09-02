@@ -1,13 +1,19 @@
 import { Request, Response }  from "express";
 import AulaView from "../models/aula-view.model";
+import { getDiaDaSemana } from "../utils/get-dia-semana";
 
 class HomeController{
-    public async getAllCursos(req: Request, res: Response) {
+    public async getAllAulas(req: Request, res: Response) {
         try {
-            const cursos = await AulaView.findAll();
-            res.json(cursos);
+            const diaDaSemana = getDiaDaSemana();
+            const cursos = await AulaView.findAll({
+                where: {
+                    diaSemana: diaDaSemana,
+                }
+            });
+            res.status(200).json(cursos);
         } catch(error) {
-            res.status(404).json({ error: 'Cursos não encontrados.' })
+            res.status(500).json({ error: 'Aulas não encontradas.' })
         } 
     }
 }

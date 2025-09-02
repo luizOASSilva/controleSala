@@ -3,8 +3,7 @@ import SimpleList from './ui/SimpleList'
 import PaginationDot from 'react-native-animated-pagination-dot'
 
 interface Professor {
-  name: string
-  isActive: boolean
+  nome: string
 }
 
 interface Props {
@@ -15,13 +14,13 @@ const ProfessorList = ({ professors }: Props) => {
   return (
     <SimpleList
       data={professors}
-      keyExtractor={(item) => item.name}
+      keyExtractor={(item) => item.nome}
       renderItem={({ item }) => (
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text>{item.name}</Text>
+            <Text>{item.nome}</Text>
             <PaginationDot
-              activeDotColor={item.isActive ? 'green' : 'red'}
+              activeDotColor={'green'}
               curPage={0}
               maxPage={1}
             />

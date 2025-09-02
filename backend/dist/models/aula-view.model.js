@@ -37,7 +37,7 @@ AulaView.init({
         allowNull: true,
     },
     diaSemana: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
         field: 'dia_semana',
     },

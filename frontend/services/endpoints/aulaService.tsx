@@ -1,6 +1,6 @@
-import api from "./api";
+import api from "../api";
 
-export interface Aula {
+export interface AulaProps {
     id: number;
     curso: string,
     semestre: string,
@@ -15,9 +15,9 @@ export interface Aula {
     ano: number,
 }
 
-export const fetchAllAulas = async (): Promise<Aula[]> => {
+export const fetchAllAulas = async (): Promise<AulaProps[]> => {
     try {
-        const response = await api.get<Aula[]>('/');
+        const response = await api.get<AulaProps[]>('/');
         return response.data;
     } catch(e: any) {
         throw new Error(e);

@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import professorController from "../controllers/professor.controller";
+import ProfessorController from '../controllers/professor.controller';
 
 const router = Router();
 
-router.get('/profesor', professorController);
+router.get('/', ProfessorController.getAllProfessores);
 
 export default router;

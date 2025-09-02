@@ -5,6 +5,8 @@ interface SubjectCardProps {
   subject: string
   professor: string
   classroom: string
+  horasIni: string
+  horasFim: string
 }
 
 export default function SubjectCard({
@@ -12,12 +14,17 @@ export default function SubjectCard({
   subject,
   professor,
   classroom,
+  horasIni,
+  horasFim,
 }: SubjectCardProps) {
   return (
     <View style={styles.cardContainer}>
       <Text style={styles.semesterText}>{semester}</Text>
       <Text style={styles.professorText}>{professor}</Text>
       <View style={styles.box}>
+        <Text style={styles.timeText}>
+          {horasIni} - {horasFim}
+        </Text>
         <Text>{classroom}</Text>
         <Text>{subject}</Text>
       </View>
@@ -47,5 +54,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: 'red',
     marginBottom: 10,
+  },
+  timeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#333',
   },
 })

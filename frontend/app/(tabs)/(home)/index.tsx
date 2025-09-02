@@ -1,70 +1,95 @@
-import { ScrollView } from 'react-native'
+import { ScrollView, View, Text } from 'react-native'
 import CourseView from '@/components/CourseView'
-import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SubjectCard from '@/components/SubjectCard'
 
-import { fetchAllAulas, Aula } from '@/services/aulaService'
+import { fetchAllAulas, AulaProps } from '@/services/endpoints/aulaService'
+import { useEffect, useState } from 'react'
+import { Link } from 'expo-router'
 
-const index = () => {
-  const courses = [
-    {
-      name: 'Análise e Desenvolvimento de Sistemas(manhã)',
-      semester: [
-        'Primeiro semestre',
-        'semestre 2',
-        'semestre 3',
-        'semestre 4',
-        'semestre 5',
-        'semestre 6',
-      ],
-      subject: ['Programação de Scripts', 'Algoritmos', 'Sistemas O'],
-    },
-    {
-      name: 'Gestão financeira',
-      semester: [
-        'semestre 1',
-        'semestre 2',
-        'semestre 3',
-        'semestre 4',
-        'semestre 5',
-        'semestre 6',
-      ],
-      subject: 'Negócios',
-      classroom: 'sala 3',
-    },
+const Index = () => {
+  const [aulas, setAulas] = useState<AulaProps[]>([])
+
+  useEffect(() => {
+    const loadAulas = async () => {
+      try {
+        const data = await fetchAllAulas()
+        setAulas(data)
+      } catch (e: any) {
+        console.error('Erro ao carregar aulas:', e)
+      }
+    }
+    loadAulas()
+  }, [])
+
+  const cursos = Array.from(new Set(aulas.map((aula) => aula.curso)))
+
+  const blocos = [
+    { id: 1, horasIni: '19:00:00', horasFim: '20:40:00', label: '1º Horário' },
+    { id: 2, horasIni: '20:50:00', horasFim: '22:30:00', label: '2º Horário' },
   ]
-
-  const renderSemester = (semester: string[]) => {
-    return semester.map((data, index) => (
-      <Link
-        key={index}
-        href={{
-          pathname: '/subjectDetails',
-          params: { data },
-        }}
-      >
-        <SubjectCard semester={data} professor="" classroom="" subject="" />
-      </Link>
-    ))
-  }
-
-  (async () => {
-    const aulas = await fetchAllAulas();
-    console.log('Aulas recebidas', aulas);
-  })();
 
   return (
     <SafeAreaView>
       <ScrollView>
-        {courses.map((course, index) => (
-          <CourseView course={course.name} key={index}>
-            {renderSemester(course.semester)}
-          </CourseView>
-        ))}
+        {cursos.map((curso) => {
+          const aulasDoCurso = aulas.filter((aula) => aula.curso === curso)
+
+          return (
+            <View key={curso} style={{ marginBottom: 20 }}>
+              <Text style={{ fontSize: 16, fontWeight: '700', marginLeft: 10 }}>
+                {curso}
+              </Text>
+
+              {blocos.map((bloco) => {
+                const aulasDoBloco = aulasDoCurso.filter((aula) =>
+                  aula.horasIni === bloco.horasIni && aula.horasFim === bloco.horasFim
+                )
+
+                if (aulasDoBloco.length === 0) return null
+
+                return (
+                  <View key={bloco.id} style={{ marginTop: 10 }}>
+                    <Text
+                      style={{
+                        color: '#555',
+                        fontSize: 14,
+                        fontWeight: '600',
+                        marginLeft: 10,
+                      }}
+                    >
+                      {bloco.label}
+                    </Text>
+
+                    <CourseView>
+                      {aulasDoBloco.map((aula) => (
+                        <Link 
+                          key={aula.id}
+                          href={{
+                            pathname: '/subjectDetails',
+                          }}
+                        >
+                          <SubjectCard
+                            key={aula.id}
+                            semester={aula.semestre}
+                            professor={aula.professor}
+                            subject={aula.disciplina}
+                            classroom={aula.local}
+                            horasIni={aula.horasIni}
+                            horasFim={aula.horasFim}
+                          />
+                        </Link>
+                      ))}
+                    </CourseView>
+                  </View>
+                )
+              })}
+            </View>
+          )
+        })}
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default index
+export default Index

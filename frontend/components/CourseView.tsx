@@ -1,14 +1,12 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 
 interface CourseViewProps {
-  course: string
   children: React.ReactNode
 }
 
-const CourseView = ({ course, children }: CourseViewProps) => {
+const CourseView = ({ children }: CourseViewProps) => {
   return (
-    <View style={{ padding: 10 }}>
-      <Text style={styles.viewTitle}>{course}</Text>
+    <View style={{ padding: 5 }}>
       <ScrollView
         horizontal={true}
         style={{ padding: 10 }}
@@ -21,10 +19,3 @@ const CourseView = ({ course, children }: CourseViewProps) => {
 }
 
 export default CourseView
-
-const styles = StyleSheet.create({
-  viewTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-})

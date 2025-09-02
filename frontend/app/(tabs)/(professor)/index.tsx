@@ -1,33 +1,27 @@
 import ProfessorList from '@/components/ProfessorList'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { fetchAllProfessores, ProfessorProps } from '@/services/endpoints/professorService'
+import { useEffect, useState } from 'react'
+
 const index = () => {
-  const professors = [
-    {
-      name: 'Márcio',
-      isActive: true,
-    },
-    {
-      name: 'Clayton',
-      isActive: true,
-    },
-    {
-      name: 'Eleandro',
-      isActive: false,
-    },
-    {
-      name: 'Giancarlo',
-      isActive: false,
-    },
-    {
-      name: 'Roberto',
-      isActive: false,
-    },
-  ]
+  const [professores, setProfessores] = useState<ProfessorProps[]>([])
+
+  useEffect(() => {
+    const loadProfessores = async () => {
+      try {
+        const professores = await fetchAllProfessores();
+        setProfessores(professores);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    loadProfessores();
+  }, [])
 
   return (
     <SafeAreaView>
-      <ProfessorList professors={professors} />
+      <ProfessorList professors={professores} />
     </SafeAreaView>
   )
 }

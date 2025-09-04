@@ -9,11 +9,4 @@ const sequelize = new sequelize_1.Sequelize({
     database: process.env.DATABASE_NAME,
     dialect: 'mysql',
 });
-function getEnvVar(name) {
-    const value = process.env[name];
-    if (!value) {
-        throw new Error(`Variável de ambiente ${name} não definida.`);
-    }
-    return value;
-}
 exports.default = sequelize;

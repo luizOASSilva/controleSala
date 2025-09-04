@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const professor_controller_1 = __importDefault(require("../controllers/professor.controller"));
+const LessonsView_controller_1 = __importDefault(require("../controllers/LessonsView.controller"));
 const router = (0, express_1.Router)();
-router.get('/', professor_controller_1.default.getAllProfessores);
+router.get('/:dayOfWeek/:shift', LessonsView_controller_1.default.getLessonByWeekdayAndShift);
 exports.default = router;

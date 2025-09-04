@@ -1,35 +1,35 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class AulaView extends Model {
-    declare curso: string;
-    declare semestre: string;
-    declare disciplina: string;
+class LessonViewModel extends Model {
+    declare course: string;
+    declare semester: string;
+    declare subject: string;
     declare professor: string;
-    declare local: string;
-    declare andar: number;
-    declare diaSemana: number;
-    declare turno: string;
-    declare horasIni: Date;
-    declare horasFim: Date;
-    declare ano: number;
+    declare location: string;
+    declare floor: number;
+    declare dayOfWeek: number;
+    declare shift: string;
+    declare startTime: Date;
+    declare endTime: Date;
+    declare year: number;
 }
 
-AulaView.init(
+LessonViewModel.init(
     {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
-        curso: {
+        course: {
             type: DataTypes.STRING(45),
             allowNull: true,
         },
-        semestre: {
+        semester: {
             type: DataTypes.STRING(45),
             allowNull: true,
         },
-        disciplina: {
+        subject: {
             type: DataTypes.STRING(45),
             allowNull: true,
         },
@@ -37,44 +37,44 @@ AulaView.init(
             type: DataTypes.STRING(45),
             allowNull: true,
         },
-        local: {
+        location: {
             type: DataTypes.STRING(45),
             allowNull: true,
         },
-        andar: {
+        floor: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        diaSemana: {
+        dayOfWeek: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            field: 'dia_semana',
+            field: 'day_of_week',
         },
-        turno: {
+        shift: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        horasIni: {
+        startTime: {
             type: DataTypes.TIME,
             allowNull: true,
-            field: 'horas_ini',
+            field: 'start_time',
         },
-        horasFim: {
+        endTime: {
             type: DataTypes.TIME,
             allowNull: true,
-            field: 'horas_fim',
+            field: 'end_time',
         },
-        ano: {
+        year: {
             type: DataTypes.INTEGER,
             allowNull: true,
         }
     },
     {
-        tableName: 'vw_aula', 
+        tableName: 'vw_lessons', 
         sequelize,
         timestamps: false, 
         underscored: true,
     }
 );
 
-export default AulaView;
+export default LessonViewModel;

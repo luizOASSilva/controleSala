@@ -5,22 +5,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const database_1 = __importDefault(require("../config/database"));
-class AulaView extends sequelize_1.Model {
+class LessonViewModel extends sequelize_1.Model {
 }
-AulaView.init({
+LessonViewModel.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         primaryKey: true,
     },
-    curso: {
+    course: {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: true,
     },
-    semestre: {
+    semester: {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: true,
     },
-    disciplina: {
+    subject: {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: true,
     },
@@ -28,41 +28,41 @@ AulaView.init({
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: true,
     },
-    local: {
+    location: {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: true,
     },
-    andar: {
+    floor: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
     },
-    diaSemana: {
+    dayOfWeek: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
-        field: 'dia_semana',
+        field: 'day_of_week',
     },
-    turno: {
+    shift: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
     },
-    horasIni: {
+    startTime: {
         type: sequelize_1.DataTypes.TIME,
         allowNull: true,
-        field: 'horas_ini',
+        field: 'start_time',
     },
-    horasFim: {
+    endTime: {
         type: sequelize_1.DataTypes.TIME,
         allowNull: true,
-        field: 'horas_fim',
+        field: 'end_time',
     },
-    ano: {
+    year: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
     }
 }, {
-    tableName: 'vw_aula',
+    tableName: 'vw_lessons',
     sequelize: database_1.default,
     timestamps: false,
     underscored: true,
 });
-exports.default = AulaView;
+exports.default = LessonViewModel;

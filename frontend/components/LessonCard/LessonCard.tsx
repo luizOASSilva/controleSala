@@ -1,29 +1,29 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
-interface SubjectCardProps {
+interface LessonCardProps {
   semester: string
   subject: string
   professor: string
   classroom: string
-  horasIni: string
-  horasFim: string
+  startTime: string
+  endTime: string
 }
 
-export default function SubjectCard({
+export default function LessonCard({
   semester,
   subject,
   professor,
   classroom,
-  horasIni,
-  horasFim,
-}: SubjectCardProps) {
+  startTime,
+  endTime,
+}: LessonCardProps) {
   return (
     <View style={styles.cardContainer}>
       <Text style={styles.semesterText}>{semester}</Text>
       <Text style={styles.professorText}>{professor}</Text>
       <View style={styles.box}>
         <Text style={styles.timeText}>
-          {horasIni} - {horasFim}
+          {endTime} - {startTime}
         </Text>
         <Text>{classroom}</Text>
         <Text>{subject}</Text>

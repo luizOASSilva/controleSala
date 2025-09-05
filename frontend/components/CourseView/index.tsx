@@ -1,8 +1,6 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
-interface CourseViewProps {
-  children: React.ReactNode
-}
+import { CourseViewProps } from './CourseView.types'
 
 const CourseView = ({ children }: CourseViewProps) => {
   return (

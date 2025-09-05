@@ -1,36 +1,31 @@
-import { TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import { Controller, useForm } from 'react-hook-form'
-import React from 'react'
-import { Text } from 'react-native'
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Text } from 'react-native';
+import { PrimaryButton, TextInputField } from './LessonForm.styles';
+import { LessonFormProps } from './LessonForm.types';
 
 const SubjectForm = () => {
-  interface FormData {
-    professor: string
-    subject: string
-    classroom: string
-  }
-
-  const inputConfig: { placeholder: string; name: keyof FormData }[] = [
+  const inputConfig: { placeholder: string; name: keyof LessonFormProps }[] = [
     { placeholder: 'Digite o nome do professor:', name: 'professor' },
     { placeholder: 'Digite o nome da matéria:', name: 'subject' },
     { placeholder: 'Digite da disciplina:', name: 'classroom' },
-  ]
+  ];
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<LessonFormProps>({
     defaultValues: {
       professor: '',
       subject: '',
       classroom: '',
     },
-  })
+  });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data)
-  }
+  const onSubmit = (data: LessonFormProps) => {
+    console.log(data);
+  };
 
   return (
     <React.Fragment>
@@ -40,8 +35,7 @@ const SubjectForm = () => {
           control={control}
           rules={{ required: true }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
+            <TextInputField
               placeholder={config.placeholder}
               value={value}
               onChangeText={onChange}
@@ -51,27 +45,11 @@ const SubjectForm = () => {
           name={config.name}
         />
       ))}
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={{ color: 'white', fontWeight: 800 }}>Enviar</Text>
-      </TouchableOpacity>
+      <PrimaryButton onPress={handleSubmit(onSubmit)}>
+        <Text style={{ color: 'white', fontWeight: '800' }}>Enviar</Text>
+      </PrimaryButton>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default SubjectForm
-
-const styles = StyleSheet.create({
-  input: {
-    borderWidth: 0.5,
-    borderColor: 'gray',
-    borderRadius: 5,
-    marginBottom: 10,
-    padding: 10,
-  },
-  button: {
-    padding: 10,
-    backgroundColor: 'red',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-})
+export default SubjectForm;

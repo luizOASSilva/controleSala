@@ -1,8 +1,3 @@
-export interface LessonCardProps {
-  semester: string
-  subject: string
-  professor: string
-  classroom: string
-  startTime: string
-  endTime: string
-}
+import { Lesson } from '@/types'
+
+export type LessonCardProps = Pick<Lesson, 'semester' | 'subject' | 'professor' | 'classroom' | 'startTime' | 'endTime'>

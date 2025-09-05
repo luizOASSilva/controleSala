@@ -1,3 +1,3 @@
-export interface CourseViewProps {
-  children: React.ReactNode
-}
+import { ChildrenProps } from '@/types'
+
+export type CourseViewProps = ChildrenProps

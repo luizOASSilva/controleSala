@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CourseView from '@/components/CourseView';
-import lesso
+import LessonCard from '@/components/LessonCard';
 import { fetchAllLessons } from '@/services/endpoints/lessonService';
 import dayjs from 'dayjs';
 
@@ -90,11 +90,10 @@ const Index: React.FC = () => {
               return (
                 <View key={block.id} style={styles.blockContainer}>
                   <Text style={styles.blockLabel}>{block.label}</Text>
-
                   <CourseView>
                     {lessonsInBlock.map((lesson) => (
                       <Link key={lesson.id} href={{ pathname: '/subjectDetails' }}>
-                        <SubjectCard
+                        <LessonCard
                           semester={lesson.semester}
                           professor={lesson.professor}
                           subject={lesson.subject}

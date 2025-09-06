@@ -17,13 +17,13 @@ const HomeLayout = () => {
         }}
       />
       <Stack.Screen
-        name="subjectDetails"
+        name="lessonDetails"
         options={{
           headerTitle: 'Detalhes',
         }}
       />
       <Stack.Screen
-        name="subjectEdit"
+        name="lessonEdit"
         options={{
           headerTitle: 'Editar matéria',
         }}

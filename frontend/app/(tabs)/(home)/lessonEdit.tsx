@@ -1,21 +1,22 @@
 import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import SubjectForm from '@/components/SubjectForm'
 import { StyleSheet } from 'react-native'
-import SubjectCard from '@/components/SubjectCard'
+import LessonCard from '@/components/LessonCard'
+import LessonForm from '@/components/LessonForm'
 
 const subjectEdit = () => {
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', marginBottom: 25 }}>
-        <SubjectCard
+        <LessonCard
           classroom="Laboratório 2"
           professor="Luciano"
           semester="Segundo semestre"
           subject="Linguagem de programação"
+          startTime="19:00"
+          endTime="20:40"
         />
       </View>
-      <SubjectForm />
+      <LessonForm />
     </View>
   )
 }

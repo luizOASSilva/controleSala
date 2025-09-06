@@ -1,11 +1,10 @@
-// types/index.ts
 export interface Lesson {
   id: number
   course: string
   semester: string
   subject: string
   professor: string
-  classroom: string
+  location: string
   floor: number
   dayOfWeek: number
   shift: string
@@ -27,12 +26,12 @@ export type GroupedLessons = {
   }
 }
 
-export interface ChildrenProps {
-  children: React.ReactNode
-}
-
-export interface Professor {
+export interface ProfessorProps {
   id: number
   nome: string
   status?: string
+}
+
+export interface ChildrenProps {
+  children: React.ReactNode
 }

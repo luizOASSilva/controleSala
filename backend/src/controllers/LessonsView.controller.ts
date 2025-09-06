@@ -5,8 +5,8 @@ import { BaseError } from "sequelize";
 class LessonsViewController{
     public async getLessonByWeekdayAndShift (req: Request, res: Response) {
         try {
-            const dayOfWeek = Number(req.params.dayOfWeek);
-            const shift = String(req.params.shift)
+            const dayOfWeek = Number(req.query.dayOfWeek);
+            const shift = String(req.query.shift)
 
             console.log(dayOfWeek, shift);
 

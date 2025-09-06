@@ -1,25 +1,13 @@
-import api from "../api";
+import api from '../api';
+import { Lesson } from '@/types';
+import dateUtils from '@/utils/dateUtils';
 
-export interface LessonProps {
-    id: number;
-    course: string;
-    semester: string;
-    subject: string;
-    professor: string;
-    location: string;
-    floor: number;
-    dayOfWeek: number;
-    shift: string;
-    startTime: string;  
-    endTime: string;    
-    year: number;
-}
+const dayOfWeek = Number(dateUtils.getDayOfWeekNumber());
+const shift = String(dateUtils.getShiftByHours());     
 
-export const fetchAllLessons = async (): Promise<LessonProps[]> => {
-    try {
-        const response = await api.get<LessonProps[]>(`/api/lessons`);
-        return response.data;
-    } catch (e: any) {
-        throw new Error(e);
-    }  
+export const fetchAllLessons = async (): Promise<Lesson[]> => {
+  const { data } = await api.get<Lesson[]>(
+    `/api/lessons?dayOfWeek=${dayOfWeek}&shift=${shift}`
+  );
+  return data;
 };

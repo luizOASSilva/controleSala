@@ -8,8 +8,8 @@ const sequelize_1 = require("sequelize");
 class LessonsViewController {
     async getLessonByWeekdayAndShift(req, res) {
         try {
-            const dayOfWeek = Number(req.params.dayOfWeek);
-            const shift = String(req.params.shift);
+            const dayOfWeek = Number(req.query.dayOfWeek);
+            const shift = String(req.query.shift);
             console.log(dayOfWeek, shift);
             const lessons = await LessonView_model_1.default.findAll({
                 where: {

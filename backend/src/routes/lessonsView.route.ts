@@ -4,6 +4,6 @@ import LessonsViewController from "../controllers/LessonsView.controller";
 
 const router = Router();
 
-router.get('/:dayOfWeek/:shift', LessonsViewController.getLessonByWeekdayAndShift);
+router.get('/', LessonsViewController.getLessonByWeekdayAndShift);
 
 export default router;

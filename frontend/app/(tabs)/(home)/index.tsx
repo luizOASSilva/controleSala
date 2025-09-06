@@ -1,98 +1,68 @@
-import { Link } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
 
 import CourseView from '@/components/CourseView';
 import LessonCard from '@/components/LessonCard';
 import { fetchAllLessons } from '@/services/endpoints/lessonService';
-import dayjs from 'dayjs';
+import { Lesson, GroupedLessons, Block } from '@/types';
 
-interface Lesson {
-  id: number;
-  course: string;
-  semester: string;
-  subject: string;
-  professor: string;
-  location: string;
-  floor: number;
-  dayOfWeek: number;
-  shift: string;
-  startTime: string;
-  endTime: string;
-  year: number;
-}
+import {
+  LessonsScreenContainer,
+  LessonsScrollView,
+  CourseSection,
+  CourseName,
+  TimeBlockSection,
+  TimeBlockLabel,
+} from '../../../features/home/index.styles';
 
-interface Block {
-  id: number;
-  startTime: string;
-  endTime: string;
-  label: string;
-}
-
-type GroupedLessons = {
-  [course: string]: {
-    [blockId: number]: Lesson[];
-  };
-};
-
-const blocks: Block[] = [
-  { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: '1st Shift' },
-  { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: '2nd Shift' },
+const classTimeBlocks: Block[] = [
+  { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: 'Primeiro turno' },
+  { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: 'Segundo turno' },
 ];
 
-const Index: React.FC = () => {
-  const [groupedLessons, setGroupedLessons] = useState<GroupedLessons>({});
+const Index = () => {
+  const [lessonsByCourseAndBlock, setLessonsByCourseAndBlock] = useState<GroupedLessons>({});
 
   useEffect(() => {
     const loadLessons = async () => {
-      try {
-        const weekday = dayjs().day();
+      const lessons: Lesson[] = await fetchAllLessons();
+      const grouping: GroupedLessons = {};
 
-        const shift = 'Noite';
+      for (const lesson of lessons) {
+        const timeBlock = classTimeBlocks.find(
+          b => b.startTime === lesson.startTime && b.endTime === lesson.endTime
+        );
+        if (!timeBlock) continue;
 
-        const lessons: Lesson[] = await fetchAllLessons();
+        if (!grouping[lesson.course]) grouping[lesson.course] = {};
+        if (!grouping[lesson.course][timeBlock.id]) grouping[lesson.course][timeBlock.id] = [];
 
-        const grouping: GroupedLessons = {};
-
-        for (const lesson of lessons) {
-          const block = blocks.find(
-            (b) => b.startTime === lesson.startTime && b.endTime === lesson.endTime
-          );
-          if (!block) continue;
-
-          if (!grouping[lesson.course]) grouping[lesson.course] = {};
-          if (!grouping[lesson.course][block.id]) grouping[lesson.course][block.id] = [];
-
-          grouping[lesson.course][block.id].push(lesson);
-        }
-
-        setGroupedLessons(grouping);
-      } catch (error) {
-        console.error('Error loading lessons:', error);
+        grouping[lesson.course][timeBlock.id].push(lesson);
       }
+
+      setLessonsByCourseAndBlock(grouping);
     };
 
     loadLessons();
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        {Object.keys(groupedLessons).map((course) => (
-          <View key={course} style={styles.courseContainer}>
-            <Text style={styles.courseTitle}>{course}</Text>
+    <LessonsScreenContainer>
+      <LessonsScrollView>
+        {Object.keys(lessonsByCourseAndBlock).map(courseName => (
+          <CourseSection key={courseName}>
+            <CourseName>{courseName}</CourseName>
 
-            {blocks.map((block) => {
-              const lessonsInBlock = groupedLessons[course][block.id];
-              if (!lessonsInBlock || lessonsInBlock.length === 0) return null;
+            {classTimeBlocks.map(timeBlock => {
+              const lessonsInTimeBlock = lessonsByCourseAndBlock[courseName][timeBlock.id];
+              if (!lessonsInTimeBlock || lessonsInTimeBlock.length === 0) return null;
 
               return (
-                <View key={block.id} style={styles.blockContainer}>
-                  <Text style={styles.blockLabel}>{block.label}</Text>
+                <TimeBlockSection key={timeBlock.id}>
+                  <TimeBlockLabel>{timeBlock.label}</TimeBlockLabel>
                   <CourseView>
-                    {lessonsInBlock.map((lesson) => (
-                      <Link key={lesson.id} href={{ pathname: '/subjectDetails' }}>
+                    {lessonsInTimeBlock.map(lesson => (
+                      <Link key={lesson.id} href={{ pathname: '/lessonDetails' }}>
                         <LessonCard
                           semester={lesson.semester}
                           professor={lesson.professor}
@@ -104,37 +74,14 @@ const Index: React.FC = () => {
                       </Link>
                     ))}
                   </CourseView>
-                </View>
+                </TimeBlockSection>
               );
             })}
-          </View>
+          </CourseSection>
         ))}
-      </ScrollView>
-    </SafeAreaView>
+      </LessonsScrollView>
+    </LessonsScreenContainer>
   );
 };
 
 export default Index;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  courseContainer: {
-    marginBottom: 20,
-  },
-  courseTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    marginLeft: 10,
-  },
-  blockContainer: {
-    marginTop: 10,
-  },
-  blockLabel: {
-    color: '#555',
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 10,
-  },
-});

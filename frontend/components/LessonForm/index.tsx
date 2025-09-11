@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text } from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
-import { TextInputField, PrimaryButton } from './LessonForm.styles'
+import { Text } from 'react-native'
+import { PrimaryButton, TextInputField } from './LessonForm.styles'
 import { LessonFormProps } from './LessonForm.types'
 
 const LessonForm: React.FC = () => {
@@ -12,7 +12,11 @@ const LessonForm: React.FC = () => {
   ]
 
   const { control, handleSubmit } = useForm<LessonFormProps>({
-    defaultValues: { professor: '', subject: '', classroom: '' },
+    defaultValues: {
+      professor: '',
+      subject: '',
+      classroom: '',
+    },
   })
 
   const onSubmit = (data: LessonFormProps) => {
@@ -27,15 +31,15 @@ const LessonForm: React.FC = () => {
           key={index}
           control={control}
           rules={{ required: true }}
+          name={config.name}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInputField
               placeholder={config.placeholder}
-              value={value}
+              value={value as string}
               onChangeText={onChange}
               onBlur={onBlur}
             />
           )}
-          name={config.name}
         />
       ))}
       <PrimaryButton onPress={handleSubmit(onSubmit)}>

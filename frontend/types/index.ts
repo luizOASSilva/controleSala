@@ -1,4 +1,4 @@
-export interface Lesson {
+export interface LessonProps {
   id: number
   course: string
   semester: string
@@ -13,24 +13,29 @@ export interface Lesson {
   year: number
 }
 
-export interface Block {
+export interface BlockProps {
   id: number
   startTime: string
   endTime: string
   label: string
 }
 
-export type GroupedLessons = {
+export type GroupedLessonsProps = {
   [course: string]: {
-    [blockId: number]: Lesson[]
+    [blockId: number]: LessonProps[]
   }
 }
 
 export interface ProfessorProps {
-  id: number
-  nome: string
-  status?: string
+  professorId: number
+  professorName: string
+  dayOfWeek: number
+  shift: string
+  roomName: string
+  floor: number | null
+  rooms?: string[]
 }
+
 
 export interface ChildrenProps {
   children: React.ReactNode

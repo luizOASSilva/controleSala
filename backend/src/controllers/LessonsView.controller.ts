@@ -14,8 +14,8 @@ class LessonsViewController{
                 where: {
                     dayOfWeek,
                     shift
-                }
-            })
+                },
+            });
 
             res.json(lessons);
         } catch(e) {

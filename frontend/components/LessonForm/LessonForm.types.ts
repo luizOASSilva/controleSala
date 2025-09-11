@@ -1,6 +1,6 @@
-import { Lesson } from '@/types'
+import { LessonProps } from '@/types'
 
 export type LessonFormProps = Pick<
-  Lesson,
+  LessonProps,
   'professor' | 'subject' | 'classroom'
 >

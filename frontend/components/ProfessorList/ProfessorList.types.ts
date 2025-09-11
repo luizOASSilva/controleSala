@@ -1,7 +1,5 @@
-export interface Professor {
-  nome: string;
-}
+import { ProfessorProps } from '@/types';
 
 export interface ProfessorListProps {
-  professors: Professor[];
+  professors: ProfessorProps[];
 }

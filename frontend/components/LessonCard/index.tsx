@@ -1,15 +1,15 @@
 import React from 'react'
 import { Text } from 'react-native'
+import { Box, CardContainer, ProfessorText, SemesterText, TimeText } from './LessonCard.styles'
 import { LessonCardProps } from './LessonCard.types'
-import { CardContainer, Box, SemesterText, ProfessorText, TimeText } from './LessonCard.styles'
 
-const LessonCard = ({ semester, subject, professor, classroom, startTime, endTime }: LessonCardProps) => (
+const LessonCard = ({ semester, subject, professor, location, startTime, endTime }: LessonCardProps) => (
   <CardContainer>
     <SemesterText>{semester}</SemesterText>
     <ProfessorText>{professor}</ProfessorText>
     <Box>
       <TimeText>{startTime} - {endTime}</TimeText>
-      <Text>{classroom}</Text>
+      <Text>{location}</Text>
       <Text>{subject}</Text>
     </Box>
   </CardContainer>

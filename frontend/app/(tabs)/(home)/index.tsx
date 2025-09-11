@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from 'react';
 import { Link } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 
 import CourseView from '@/components/CourseView';
 import LessonCard from '@/components/LessonCard';
-import { fetchAllLessons } from '@/services/endpoints/lessonService';
-import { Lesson, GroupedLessons, Block } from '@/types';
+import { fetchLessonsByWeekdayAndShift } from '@/services/endpoints/lessonService';
+import { BlockProps, GroupedLessonsProps, LessonProps } from '@/types';
 
 import {
+  CourseName,
+  CourseSection,
   LessonsScreenContainer,
   LessonsScrollView,
-  CourseSection,
-  CourseName,
-  TimeBlockSection,
   TimeBlockLabel,
+  TimeBlockSection,
 } from '../../../features/home/index.styles';
 
-const classTimeBlocks: Block[] = [
-  { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: 'Primeiro turno' },
-  { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: 'Segundo turno' },
+const classTimeBlocks: BlockProps[] = [
+  { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: 'Primeiro horário' },
+  { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: 'Segundo horário' },
 ];
 
 const Index = () => {
-  const [lessonsByCourseAndBlock, setLessonsByCourseAndBlock] = useState<GroupedLessons>({});
+  const [lessonsByCourseAndBlock, setLessonsByCourseAndBlock] = useState<GroupedLessonsProps>({});
 
   useEffect(() => {
     const loadLessons = async () => {
-      const lessons: Lesson[] = await fetchAllLessons();
-      const grouping: GroupedLessons = {};
+      const lessons: LessonProps[] = await fetchLessonsByWeekdayAndShift();
+      const grouping: GroupedLessonsProps = {};
 
       for (const lesson of lessons) {
         const timeBlock = classTimeBlocks.find(
@@ -67,7 +67,7 @@ const Index = () => {
                           semester={lesson.semester}
                           professor={lesson.professor}
                           subject={lesson.subject}
-                          classroom={lesson.location}
+                          location={lesson.location}
                           startTime={lesson.startTime}
                           endTime={lesson.endTime}
                         />

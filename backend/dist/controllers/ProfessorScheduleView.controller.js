@@ -3,32 +3,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const LessonView_model_1 = __importDefault(require("../models/LessonView.model"));
 const sequelize_1 = require("sequelize");
-class LessonsViewController {
-    async getLessonByWeekdayAndShift(req, res) {
+const ProfessorScheduleView_model_1 = __importDefault(require("../models/ProfessorScheduleView.model"));
+class ProfessorScheduleViewController {
+    async getProfessorByWeekdayAndShift(req, res) {
         try {
             const dayOfWeek = Number(req.query.dayOfWeek);
             const shift = String(req.query.shift);
-            console.log(dayOfWeek, shift);
-            const lessons = await LessonView_model_1.default.findAll({
+            const professors = await ProfessorScheduleView_model_1.default.findAll({
                 where: {
                     dayOfWeek,
-                    shift
+                    shift,
                 },
+                order: [
+                    [
+                        'professor_name', 'ASC'
+                    ]
+                ]
             });
-            res.json(lessons);
+            res.json(professors);
         }
         catch (e) {
             if (e instanceof sequelize_1.BaseError) {
-                console.error('Sequelize error: ', e.message);
+                console.log('Sequelize error: ', e.message);
                 res.status(500).json({ error: 'Database error' });
             }
             else {
-                console.error('unknown error: ', e);
+                console.log('Unknown error: ', e);
                 res.status(500).json({ error: 'Internal server error' });
             }
         }
     }
 }
-exports.default = new LessonsViewController;
+exports.default = new ProfessorScheduleViewController;

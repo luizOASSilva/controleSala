@@ -2,13 +2,12 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Text } from 'react-native'
 import { PrimaryButton, TextInputField } from './LessonForm.styles'
-import { LessonFormProps } from './LessonForm.types'
+import { LessonFormProps, ProfessorFormProps } from './LessonForm.types'
 
-const LessonForm: React.FC = () => {
+const LessonForm: React.FC<ProfessorFormProps> = ({ onProfessorChange, onSubjectChange }) => {
   const inputConfig: { placeholder: string; name: keyof LessonFormProps }[] = [
     { placeholder: 'Digite o nome do professor:', name: 'professor' },
-    { placeholder: 'Digite o nome da matéria:', name: 'subject' },
-    { placeholder: 'Digite a sala:', name: 'classroom' },
+    { placeholder: 'Digite o nome da matéria:', name: 'subject' }
   ]
 
   const { control, handleSubmit } = useForm<LessonFormProps>({
@@ -36,8 +35,16 @@ const LessonForm: React.FC = () => {
             <TextInputField
               placeholder={config.placeholder}
               value={value as string}
-              onChangeText={onChange}
               onBlur={onBlur}
+              onChangeText={(text) => {
+                onChange(text) 
+                if (config.name === 'professor') {
+                  onProfessorChange?.(text)
+                }
+                if(config.name === 'subject') {
+                  onSubjectChange?.(text);
+                }
+              }}
             />
           )}
         />

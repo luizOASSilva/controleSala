@@ -1,6 +1,6 @@
-import { LessonProps } from "@/types"
+import { Lesson } from "@/types"
 
 export type LessonCardProps = Pick<
-  LessonProps,
+  Lesson,
   'semester' | 'subject' | 'professor' | 'location' | 'startTime' | 'endTime'
 >

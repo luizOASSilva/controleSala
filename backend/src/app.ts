@@ -8,7 +8,6 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/lessons', lessonsViewRoute);
-
-app.use('/api/professors', professorScheduleViewRoute)
+app.use('/api/professors', professorScheduleViewRoute);
 
 export default app;

@@ -1,46 +1,87 @@
+import React, { useEffect, useState } from 'react'
 import ProfessorList from '@/components/ProfessorList'
-import { SafeAreaView } from 'react-native-safe-area-context'
-
 import { fetchProfessorsByWeekdayAndShift } from '@/services/endpoints/professorService'
-import { ProfessorProps } from '@/types'
-import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Professor, ProfessorScheduleItem } from '@/types'
+import { Container, ToggleContainer, ToggleTrack, ToggleThumb } from './../../../features/professor/index.styles'
+
+const FIRST_BLOCK = '19:00:00'
+const SECOND_BLOCK = '20:50:00'
 
 const Index = () => {
-  const [professors, setProfessors] = useState<ProfessorProps[]>([])
+  const [professors, setProfessors] = useState<Professor[]>([])
+  const [isSecondSchedule, setIsSecondSchedule] = useState(false)
 
   useEffect(() => {
-    const loadProfessores = async () => {
+    const loadProfessors = async () => {
       try {
-        const fetched = await fetchProfessorsByWeekdayAndShift()
+        const fetched: ProfessorScheduleItem[] = await fetchProfessorsByWeekdayAndShift();
 
-        const grouped: Record<string, ProfessorProps & { rooms: string[] }> = {}
+        console.log(fetched);
 
-        for (const professor of fetched) {
-          if (grouped[professor.professorId]) {
-            grouped[professor.professorId].rooms.push(professor.roomName)
-          } else {
-            grouped[professor.professorId] = {
-              ...professor,
-              rooms: [professor.roomName]
+        const grouped = Object.values(
+          fetched.reduce((acc, item) => {
+            const key = item.professorId
+
+            if (!acc[key]) {
+              acc[key] = {
+                professorId: item.professorId,
+                professorName: item.professorName,
+                schedules: [],
+              }
             }
-          }
-        }
 
-        const groupedArray = Object.values(grouped)
-        setProfessors(groupedArray)
-      } catch (e) {
-        console.log(e)
+            acc[key].schedules.push({
+              roomName: item.roomName,
+              floor: item.floor,
+              startTime: item.startTime,
+              endTime: item.endTime,
+            })
+
+            return acc
+          }, {} as Record<number, Professor>)
+        )
+
+        setProfessors(grouped)
+      } catch (error) {
+        console.error(error)
       }
     }
 
-    loadProfessores()
+    loadProfessors()
   }, [])
 
+  const filtered = professors.filter(prof => {
+    const first = prof.schedules.find(s => s.startTime === FIRST_BLOCK)
+    const second = prof.schedules.find(s => s.startTime === SECOND_BLOCK)
+
+    if (!isSecondSchedule) {
+      return Boolean(first)
+    } else {
+      if (!second) return false
+
+      return !first || (first.roomName !== second.roomName)
+    }
+  })
+
+  const mapped = filtered.map(prof => {
+    const first = prof.schedules.find(s => s.startTime === FIRST_BLOCK)
+    const second = prof.schedules.find(s => s.startTime === SECOND_BLOCK)
+
+    return {
+      ...prof,
+      schedules: [isSecondSchedule ? second! : first!], 
+    }
+  })
+
   return (
-    <View>
-      <ProfessorList professors={professors} />
-    </View>
+    <Container>
+      <ToggleContainer onPress={() => setIsSecondSchedule(prev => !prev)}>
+        <ToggleTrack />
+        <ToggleThumb isActive={isSecondSchedule} />
+      </ToggleContainer>
+
+      <ProfessorList professors={mapped} />
+    </Container>
   )
 }
 

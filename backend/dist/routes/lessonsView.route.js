@@ -7,4 +7,5 @@ const express_1 = require("express");
 const LessonsView_controller_1 = __importDefault(require("../controllers/LessonsView.controller"));
 const router = (0, express_1.Router)();
 router.get('/', LessonsView_controller_1.default.getLessonByWeekdayAndShift);
+router.get('/:id', LessonsView_controller_1.default.getLessonById);
 exports.default = router;

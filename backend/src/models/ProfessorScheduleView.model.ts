@@ -39,7 +39,17 @@ ProfessorScheduleViewModel.init(
         floor: {
             type: DataTypes.INTEGER,
             allowNull: true,
-        }
+        },
+        startTime: {
+            type: DataTypes.TIME,
+            allowNull: true,
+            field: 'start_time',
+        },
+        endTime: {
+            type: DataTypes.TIME,
+            allowNull: true,
+            field: 'end_time',
+        },
     },
     {
         tableName: 'vw_professors_schedule',

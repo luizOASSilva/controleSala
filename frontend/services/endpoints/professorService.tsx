@@ -1,14 +1,13 @@
-import { ProfessorProps } from '@/types';
-import dateUtils from '@/utils/dateUtils';
-import api from '../api';
+import { ProfessorScheduleItem } from '@/types'
+import dateUtils from '@/utils/dateUtils'
+import api from '../api'
 
-const dayOfWeek = Number(dateUtils.getDayOfWeekNumber());
-const shift = String(dateUtils.getShiftByHours());
+const dayOfWeek = Number(dateUtils.getDayOfWeekNumber())
+const shift = String(dateUtils.getShiftByHours())
 
-export const fetchProfessorsByWeekdayAndShift = async (): Promise<ProfessorProps[]> => {
-  const { data } = await api.get(
-    `api/professors?dayOfWeek=${dayOfWeek}&shift=${shift}`
-  );
-
+export const fetchProfessorsByWeekdayAndShift = async (): Promise<ProfessorScheduleItem[]> => {
+  const { data } = await api.get<ProfessorScheduleItem[]>(
+    `/api/professors?dayOfWeek=2&shift=noturno`
+  )
   return data
 }

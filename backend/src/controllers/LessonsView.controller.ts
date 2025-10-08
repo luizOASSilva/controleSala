@@ -29,6 +29,26 @@ class LessonsViewController{
         }
 
     }
+    public async getLessonById (req: Request, res: Response) {
+
+        try {
+            const { id } = req.params;
+
+            const lesson = await LessonViewModel.findByPk(id);
+
+            res.json(lesson);
+            
+        } catch(e) { 
+            if(e instanceof BaseError) {
+                console.error('Sequelize error: ', e.message);
+                res.status(500).json({ error: 'Database error' });
+            } else {
+                console.error('unknown error: ', e);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        }
+
+    }
 }
 
 export default new LessonsViewController;

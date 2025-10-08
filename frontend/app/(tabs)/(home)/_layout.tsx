@@ -17,13 +17,7 @@ const HomeLayout = () => {
         }}
       />
       <Stack.Screen
-        name="lessonDetails"
-        options={{
-          headerTitle: 'Detalhes',
-        }}
-      />
-      <Stack.Screen
-        name="lessonEdit"
+        name="lessonEdit/[id]"
         options={{
           headerTitle: 'Editar matéria',
         }}

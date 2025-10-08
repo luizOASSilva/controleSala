@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import CourseView from '@/components/CourseView';
 import LessonCard from '@/components/LessonCard';
 import { fetchLessonsByWeekdayAndShift } from '@/services/endpoints/lessonService';
-import { BlockProps, GroupedLessonsProps, LessonProps } from '@/types';
+import { TimeBlock, GroupedLessons, Lesson } from '@/types';  
 
 import {
   CourseName,
@@ -15,32 +15,41 @@ import {
   TimeBlockSection,
 } from '../../../features/home/index.styles';
 
-const classTimeBlocks: BlockProps[] = [
-  { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: 'Primeiro horário' },
-  { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: 'Segundo horário' },
+// Time blocks defined
+const classTimeBlocks: TimeBlock[] = [
+  { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: 'Primeiro bloco' },
+  { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: 'Segundo bloco' },
 ];
 
 const Index = () => {
-  const [lessonsByCourseAndBlock, setLessonsByCourseAndBlock] = useState<GroupedLessonsProps>({});
+  const [lessonsByCourseAndBlock, setLessonsByCourseAndBlock] = useState<GroupedLessons>({}); 
 
   useEffect(() => {
     const loadLessons = async () => {
-      const lessons: LessonProps[] = await fetchLessonsByWeekdayAndShift();
-      const grouping: GroupedLessonsProps = {};
+      try {
+        const lessons: Lesson[] = await fetchLessonsByWeekdayAndShift();
+        const grouping: GroupedLessons = {}; 
 
-      for (const lesson of lessons) {
-        const timeBlock = classTimeBlocks.find(
-          b => b.startTime === lesson.startTime && b.endTime === lesson.endTime
-        );
-        if (!timeBlock) continue;
+        const timeBlockMap = classTimeBlocks.reduce((map, block) => {
+          map[block.startTime + block.endTime] = block;
+          return map;
+        }, {} as Record<string, TimeBlock>);
 
-        if (!grouping[lesson.course]) grouping[lesson.course] = {};
-        if (!grouping[lesson.course][timeBlock.id]) grouping[lesson.course][timeBlock.id] = [];
+        for (const lesson of lessons) {
+          const timeBlockKey = lesson.startTime + lesson.endTime;
+          const timeBlock = timeBlockMap[timeBlockKey];
+          if (!timeBlock) continue;
 
-        grouping[lesson.course][timeBlock.id].push(lesson);
+          if (!grouping[lesson.course]) grouping[lesson.course] = {};
+          if (!grouping[lesson.course][timeBlock.id]) grouping[lesson.course][timeBlock.id] = [];
+
+          grouping[lesson.course][timeBlock.id].push(lesson);
+        }
+
+        setLessonsByCourseAndBlock(grouping);
+      } catch (error) {
+        console.error('Error loading lessons:', error);
       }
-
-      setLessonsByCourseAndBlock(grouping);
     };
 
     loadLessons();
@@ -54,15 +63,21 @@ const Index = () => {
             <CourseName>{courseName}</CourseName>
 
             {classTimeBlocks.map(timeBlock => {
-              const lessonsInTimeBlock = lessonsByCourseAndBlock[courseName][timeBlock.id];
+              const lessonsInTimeBlock = lessonsByCourseAndBlock[courseName]?.[timeBlock.id];
               if (!lessonsInTimeBlock || lessonsInTimeBlock.length === 0) return null;
 
               return (
                 <TimeBlockSection key={timeBlock.id}>
                   <TimeBlockLabel>{timeBlock.label}</TimeBlockLabel>
                   <CourseView>
-                    {lessonsInTimeBlock.map(lesson => (
-                      <Link key={lesson.id} href={{ pathname: '/lessonDetails' }}>
+                    {lessonsInTimeBlock.map((lesson: Lesson) => (
+                      <Link 
+                        key={lesson.id} 
+                        href={{ 
+                          pathname: '/lessonEdit/[id]',
+                          params: { id: lesson.id.toString() } 
+                        }}
+                      >
                         <LessonCard
                           semester={lesson.semester}
                           professor={lesson.professor}

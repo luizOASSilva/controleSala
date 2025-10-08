@@ -6,4 +6,5 @@ const router = Router();
 
 router.use('/', ProfessorScheduleViewController.getProfessorByWeekdayAndShift);
 
+
 export default router;

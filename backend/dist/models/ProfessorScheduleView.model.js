@@ -35,7 +35,17 @@ ProfessorScheduleViewModel.init({
     floor: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: true,
-    }
+    },
+    startTime: {
+        type: sequelize_1.DataTypes.TIME,
+        allowNull: true,
+        field: 'start_time',
+    },
+    endTime: {
+        type: sequelize_1.DataTypes.TIME,
+        allowNull: true,
+        field: 'end_time',
+    },
 }, {
     tableName: 'vw_professors_schedule',
     sequelize: database_1.default,

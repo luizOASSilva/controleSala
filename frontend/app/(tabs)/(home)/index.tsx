@@ -15,7 +15,6 @@ import {
   TimeBlockSection,
 } from '../../../features/home/index.styles';
 
-// Time blocks defined
 const classTimeBlocks: TimeBlock[] = [
   { id: 1, startTime: '19:00:00', endTime: '20:40:00', label: 'Primeiro bloco' },
   { id: 2, startTime: '20:50:00', endTime: '22:30:00', label: 'Segundo bloco' },

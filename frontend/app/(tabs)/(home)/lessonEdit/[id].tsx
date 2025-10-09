@@ -16,7 +16,7 @@ const LessonEdit = () => {
   useEffect(() => {
     const loadLessonById = async () => {
       try {
-        const data = await fetchLessonById(id?.toString() || '');
+        const data = await fetchLessonById(id.toString() || '');
 
         console.log(data);
 
